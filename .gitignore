@@ -1,0 +1,65 @@
+# Editor and OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*~
+
+# Temporary agent and build work
+work/
+tmp/
+temp/
+scratch/
+*.tmp
+*.bak
+
+# Credentials and connection material
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+authorized_keys
+known_hosts
+*token*
+*secret*
+*password*
+*rcon*.conf
+
+# Minecraft runtime and player data
+world/
+worlds/
+world-*/
+logs/
+crash-reports/
+backups/
+simplebackups/
+mods/
+libraries/
+config/
+defaultconfigs/
+ops.json
+usercache.json
+whitelist.json
+server.properties
+*.mca
+*.nbt
+*.dat
+*.dat_old
+*.snbt
+
+# Archives, installers, binaries, and generated packs
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+*.tgz
+*.jar
+*.exe
+*.bin
+frpc
+frps
