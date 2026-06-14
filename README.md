@@ -14,11 +14,12 @@ The agent must still have explicit authorization for every target system.
 
 ## Scope
 
-The skill covers three related workflows:
+The skill covers four related workflows:
 
 - modpack deployment, conservative client-only pruning, administration, and performance validation
 - world replacement with online/offline UUID migration and mod-specific player-data preservation
 - FRP and provider-NAT exposure with secure lifecycle coupling to Minecraft
+- historical stability analysis and fair multi-exit comparison across FRP, network, and Minecraft layers
 
 `SKILL.md` is intentionally short. It routes the agent to only the relevant file under `references/`.
 
@@ -31,7 +32,8 @@ The skill covers three related workflows:
 |-- references/
 |   |-- modpack-deployment.md
 |   |-- world-migration.md
-|   `-- frp-tunneling.md
+|   |-- frp-tunneling.md
+|   `-- stability-observability.md
 `-- agents/
     `-- openai.yaml
 ```
@@ -69,6 +71,12 @@ offline mode, so migrate all player and mod UUID references before startup.
 Expose this private Minecraft server through an FRP relay. Harden FRPS, couple
 FRPC to the existing Minecraft lifecycle commands, and validate the public
 Minecraft status protocol.
+```
+
+```text
+Compare the recent stability of these two public exits. Separate passive logs
+from active probes, exclude any retired relay, and report Minecraft timeouts,
+lag, memory, GC, swap, and confidence in exit attribution.
 ```
 
 ## Security And Privacy

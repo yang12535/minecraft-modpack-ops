@@ -1,6 +1,6 @@
 ---
 name: minecraft-modpack-ops
-description: Deploy, update, migrate, slim, expose, and troubleshoot modded Minecraft dedicated servers over SSH. Use for CurseForge or Modrinth exports, Forge/Fabric/NeoForge packs, client-only mod pruning, proxy-assisted downloads, world replacement with online/offline UUID migration, global start/stop commands, RCON, FRP tunnels, NAT port mapping, player handshake failures, and performance validation.
+description: Deploy, update, migrate, slim, expose, observe, and troubleshoot modded Minecraft dedicated servers over SSH. Use for CurseForge or Modrinth exports, Forge/Fabric/NeoForge packs, client-only mod pruning, proxy-assisted downloads, world replacement with online/offline UUID migration, global start/stop commands, RCON, FRP tunnels, NAT port mapping, multi-exit comparison, historical stability analysis, player handshake failures, and performance validation.
 ---
 
 # Minecraft Modpack Ops
@@ -14,6 +14,7 @@ Use this skill as the routing entrypoint for modded Minecraft server operations.
 - **Deploy, update, repair, slim, tune, or operate a modpack:** read [references/modpack-deployment.md](references/modpack-deployment.md).
 - **Replace a world, change online/offline mode, migrate UUIDs, preserve player/mod data, or rebuild OP records:** read [references/world-migration.md](references/world-migration.md).
 - **Expose Minecraft through a VPS, provider NAT, FRPS/FRPC, or couple a tunnel to start/stop commands:** read [references/frp-tunneling.md](references/frp-tunneling.md).
+- **Investigate historical stability, compare multiple exits, count successful and failed connections, or distinguish service health from process state:** read [references/stability-observability.md](references/stability-observability.md).
 - **Mixed task:** read each relevant reference, then combine their validation requirements. For example, a world replacement followed by public exposure requires both the world and FRP guides.
 
 ## Shared Principles
@@ -30,6 +31,7 @@ Use this skill as the routing entrypoint for modded Minecraft server operations.
 - Back up existing scripts before modifying them and preserve unrelated services or user changes.
 - Use structured parsers for manifests, JSON, TOML, NBT, and region data.
 - Never claim success from a process existing or a TCP connect alone; validate the actual Minecraft behavior.
+- Confirm that every compared host or relay still exists and was intended to be active during the observation window before interpreting its failures.
 
 ## Completion
 
