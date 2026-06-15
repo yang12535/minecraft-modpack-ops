@@ -2,7 +2,6 @@
 name: minecraft-modpack-ops
 description: 通过 SSH 部署、更新、迁移、精简、暴露、监控和排查模组 Minecraft 专用服务器。适用于 CurseForge 或 Modrinth 导出包、Forge/Fabric/NeoForge 整合包、客户端模组修剪、代理辅助下载、含在线/离线 UUID 迁移的世界替换、全局启停命令、RCON、FRP 隧道、NAT 端口映射、多出口对比、历史稳定性分析、玩家握手失败和性能验证。
 ---
-> **语言 / Language：** 当前为中文版。英文版请阅读 [../en/SKILL.md](../en/SKILL.md)。
 
 # Minecraft Modpack Ops
 

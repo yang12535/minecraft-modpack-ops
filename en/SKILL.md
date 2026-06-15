@@ -2,7 +2,6 @@
 name: minecraft-modpack-ops
 description: Deploy, update, migrate, slim, expose, observe, and troubleshoot modded Minecraft dedicated servers over SSH. Use for CurseForge or Modrinth exports, Forge/Fabric/NeoForge packs, client-only mod pruning, proxy-assisted downloads, world replacement with online/offline UUID migration, global start/stop commands, RCON, FRP tunnels, NAT port mapping, multi-exit comparison, historical stability analysis, player handshake failures, and performance validation.
 ---
-> **Language:** This is the English version. For Chinese (default), read the root [SKILL.md](../SKILL.md).
 
 # Minecraft Modpack Ops
 
