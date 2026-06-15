@@ -1,0 +1,4 @@
+interface:
+  display_name: "Minecraft Modpack Ops"
+  short_description: "部署、迁移、暴露和监控模组服务器"
+  default_prompt: "使用 $minecraft-modpack-ops 来路由和执行此模组 Minecraft 部署、世界迁移、FRP 网络或稳定性分析任务。"

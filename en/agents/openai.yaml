@@ -1,0 +1,4 @@
+interface:
+  display_name: "Minecraft Modpack Ops"
+  short_description: "Deploy, migrate, expose, and observe modded servers"
+  default_prompt: "Use $minecraft-modpack-ops to route and perform this modded Minecraft deployment, world migration, FRP networking, or stability analysis task."

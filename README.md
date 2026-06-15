@@ -1,119 +1,58 @@
-# Minecraft Modpack Ops
+# Minecraft Modpack Ops（中文版）
 
-A product-neutral operational skill for deploying and maintaining modded Minecraft dedicated servers.
+一个产品中立的运维技能指南，用于部署和维护模组 Minecraft 专用服务器。
 
-The repository is documentation-first. It does not depend on Codex or a particular model provider. Any automation agent can use it if the agent can:
+本仓库以文档优先。不依赖 Codex 或特定模型提供商。任何自动化代理均可使用，前提是该代理能够：
 
-- read Markdown files
-- inspect and edit local files
-- run local shell commands
-- connect to authorized hosts over SSH
-- perform network and application-level validation
+- 读取 Markdown 文件
+- 检查和编辑本地文件
+- 运行本地 Shell 命令
+- 通过 SSH 连接到已授权的主机
+- 执行网络和应用层验证
 
-The agent must still have explicit authorization for every target system.
+代理必须对每个目标系统拥有明确的授权。
 
-## Scope
+> **语言 / Language：** 默认提供中文版。For English, see [en/](en/) folder.
 
-The skill covers four related workflows:
+## 覆盖范围
 
-- modpack deployment, conservative client-only pruning, administration, and performance validation
-- world replacement with online/offline UUID migration and mod-specific player-data preservation
-- FRP and provider-NAT exposure with secure lifecycle coupling to Minecraft
-- historical stability analysis and fair multi-exit comparison across FRP, network, and Minecraft layers
+本技能涵盖四个相关工作流：
 
-`SKILL.md` is intentionally short. It routes the agent to only the relevant file under `references/`.
+- 模组包部署、保守的客户端专用模组修剪、管理和性能验证
+- 世界替换（含在线/离线 UUID 迁移和模组特定玩家数据保留）
+- FRP 和提供商 NAT 暴露，与 Minecraft 安全生命周期耦合
+- 跨 FRP、网络和 Minecraft 层的历史稳定性分析和公平的多出口对比
 
-## Repository Layout
+`SKILL.md` 有意保持简短，仅将代理路由到 `zh/references/` 下的相关文件。
+
+## 仓库布局
 
 ```text
 .
-|-- README.md
-|-- SKILL.md
-|-- references/
-|   |-- modpack-deployment.md
-|   |-- world-migration.md
-|   |-- frp-tunneling.md
-|   `-- stability-observability.md
-`-- agents/
-    `-- openai.yaml
+|-- README.md          (中文，默认)
+|-- SKILL.md           (中文，默认)
+|-- zh/                (中文全文)
+|-- en/                (English full text)
+|-- references/        (保留兼容)
+|-- agents/            (保留兼容)
 ```
 
-`agents/openai.yaml` is optional UI metadata for compatible OpenAI/Codex environments. The operational guidance does not require it.
+## 与任何 Shell 代理配合使用
 
-## Use With Any Shell Agent
-
-Give the agent access to this repository and instruct it to begin with `SKILL.md`:
+将本仓库的访问权限授予代理，并指示其从 `SKILL.md` 开始：
 
 ```text
-Read /absolute/path/to/minecraft-modpack-ops/SKILL.md and follow its routing
-instructions for this Minecraft server task. Use the available shell and SSH
-tools, preserve unrelated services, and complete the relevant validation stages.
+阅读 /absolute/path/to/minecraft-modpack-ops/SKILL.md 并按照其路由
+指示处理此 Minecraft 服务器任务。使用可用的 Shell 和 SSH 工具，
+保留无关服务，并完成相关验证阶段。
 ```
 
-Agents or frameworks with a skill-directory convention can copy or symlink this repository into that directory. Otherwise, reference `SKILL.md` from the agent's system instructions, project instructions, or task prompt.
+## 安全与隐私
 
-The workflow assumes the agent can adapt commands to the operating system and existing service conventions. It intentionally does not provide a universal deployment script.
+- 将 SSH 密钥、RCON 密码、FRP 令牌和代理凭证保存在已授权的主机上
+- 切勿将机密放在命令参数、Shell 追踪、进程列表、日志、聊天或仓库文件中
+- 将玩家名称、UUID、IP 地址、坐标、背包、世界、日志、`ops.json` 和 `usercache.json` 视为敏感数据
 
-## Examples
+## 审查状态
 
-```text
-Deploy this CurseForge export as a Forge dedicated server. Remove only mods
-proven to be client-only, add graceful global start/stop commands, and validate
-a real client login.
-```
-
-```text
-Replace the stopped server's world with this archive. The target will use
-offline mode, so migrate all player and mod UUID references before startup.
-```
-
-```text
-Expose this private Minecraft server through an FRP relay. Harden FRPS, couple
-FRPC to the existing Minecraft lifecycle commands, and validate the public
-Minecraft status protocol.
-```
-
-```text
-Compare the recent stability of these two public exits. Separate passive logs
-from active probes, exclude any retired relay, and report Minecraft timeouts,
-lag, memory, GC, swap, and confidence in exit attribution.
-```
-
-## Security And Privacy
-
-This repository contains no production endpoints, player identities, UUIDs, credentials, or server-specific paths.
-
-When using the skill:
-
-- keep SSH keys, RCON passwords, FRP tokens, and proxy credentials on authorized hosts
-- never place secrets in command arguments, shell tracing, process listings, logs, chat, or repository files
-- treat player names, UUIDs, IP addresses, coordinates, inventories, worlds, logs, `ops.json`, and `usercache.json` as sensitive data
-- keep UUID mapping tables and extracted worlds ephemeral
-- redact identity-bearing log excerpts before storing or sharing them
-- disclose exact infrastructure endpoints only to the authorized requester
-- validate credential equality without publishing the credential or its hash
-- clean temporary archives, extraction trees, and downloaded binaries after validation
-
-The included `.gitignore` is defense in depth, not a substitute for reviewing staged changes before every commit.
-
-## Operational Expectations
-
-- Inspect before changing.
-- Preserve user content and unrelated services.
-- Prefer structured parsers over raw text or binary replacement.
-- Keep long-running services detached from the agent's shell session.
-- Use RCON for graceful saves and stops when available.
-- Validate Minecraft itself, not merely a process or TCP listener.
-- State clearly when a real client login or other acceptance stage remains untested.
-
-## Review Status
-
-The initial repository was reviewed for:
-
-- embedded IP addresses, usernames, UUIDs, emails, and local machine paths
-- credentials, tokens, passwords, and private-key references
-- instance-specific service names and commands
-- Codex-only assumptions in the core workflow
-- accidental inclusion of worlds, logs, archives, binaries, or player data
-
-The core documentation is platform-neutral; only `agents/openai.yaml` is provider-specific and optional.
+核心文档是平台中立的；仅 `agents/openai.yaml` 是提供商特定且可选的。
