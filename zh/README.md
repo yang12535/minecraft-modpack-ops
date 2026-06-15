@@ -1,6 +1,6 @@
 # Minecraft Modpack Ops（中文版）
 
-一个产品中立的运维技能指南，用于部署和维护模组 Minecraft 专用服务器。
+一个产品中立的运维技能指南，用于部署、自动化和维护模组 Minecraft 专用服务器。
 
 本仓库以文档优先。不依赖 Codex 或特定模型提供商。任何自动化代理均可使用，前提是该代理能够：
 
@@ -16,10 +16,11 @@
 
 ## 覆盖范围
 
-本技能涵盖四个相关工作流：
+本技能涵盖五个相关工作流：
 
 - 模组包部署、保守的客户端专用模组修剪、管理和性能验证
 - 世界替换（含在线/离线 UUID 迁移和模组特定玩家数据保留）
+- 服务端 KubeJS 会话自动化、延迟私聊通知和自定义命令
 - FRP 和提供商 NAT 暴露，与 Minecraft 安全生命周期耦合
 - 跨 FRP、网络和 Minecraft 层的历史稳定性分析和公平的多出口对比
 
@@ -37,6 +38,7 @@
 |   |-- references/
 |   |   |-- modpack-deployment.md
 |   |   |-- world-migration.md
+|   |   |-- kubejs-server-automation.md
 |   |   |-- frp-tunneling.md
 |   |   `-- stability-observability.md
 |   `-- agents/
@@ -47,6 +49,7 @@
 |   |-- references/
 |   |   |-- modpack-deployment.md
 |   |   |-- world-migration.md
+|   |   |-- kubejs-server-automation.md
 |   |   |-- frp-tunneling.md
 |   |   `-- stability-observability.md
 |   `-- agents/
@@ -82,6 +85,11 @@
 ```text
 用此存档替换已停止服务器的世界。目标将使用离线模式，
 因此请在启动前迁移所有玩家和模组的 UUID 引用。
+```
+
+```text
+使用整合包已有的 KubeJS，在每次登录会话五分钟后向该玩家单独发送
+公告。重新连接必须使旧计时器失效，并提供一个玩家命令随时查看同一公告。
 ```
 
 ```text

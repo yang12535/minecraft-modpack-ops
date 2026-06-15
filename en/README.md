@@ -2,7 +2,7 @@
 
 > **Language:** This is the English version. For Chinese (default), open the repository's [`zh/` directory](https://github.com/yang12535/minecraft-modpack-ops).
 
-A product-neutral operational skill for deploying and maintaining modded Minecraft dedicated servers.
+A product-neutral operational skill for deploying, automating, and maintaining modded Minecraft dedicated servers.
 
 The repository is documentation-first. It does not depend on Codex or a particular model provider. Any automation agent can use it if the agent can:
 
@@ -16,10 +16,11 @@ The agent must still have explicit authorization for every target system.
 
 ## Scope
 
-The skill covers four related workflows:
+The skill covers five related workflows:
 
 - modpack deployment, conservative client-only pruning, administration, and performance validation
 - world replacement with online/offline UUID migration and mod-specific player-data preservation
+- server-side KubeJS session automation, delayed private notices, and custom commands
 - FRP and provider-NAT exposure with secure lifecycle coupling to Minecraft
 - historical stability analysis and fair multi-exit comparison across FRP, network, and Minecraft layers
 
@@ -64,6 +65,12 @@ a real client login.
 ```text
 Replace the stopped server's world with this archive. The target will use
 offline mode, so migrate all player and mod UUID references before startup.
+```
+
+```text
+Use the pack's existing KubeJS installation to send each player a private
+notice five minutes after every login session. A reconnect must invalidate the
+old timer, and a player command must show the same notice on demand.
 ```
 
 ```text

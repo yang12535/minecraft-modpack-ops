@@ -6,7 +6,9 @@
 - Binary acquisition
 - FRPS hardening
 - FRPC configuration
+- Multiple exits
 - Start/stop coupling
+- Connection-rate protection
 - Validation
 - Failure routing
 
@@ -60,7 +62,7 @@ Configure:
 
 Protect:
 
-- token file: mode `0600`
+- token file: mode `0600` when owned by the service account, or `0640` with a dedicated service group
 - configuration: root-owned and only group-readable when required
 - log directory: writable only by the service account
 
@@ -93,6 +95,40 @@ Health checks prevent FRPS from advertising a proxy before the local game listen
 
 Keep FRPC disabled for independent boot activation when the user requires it to follow Minecraft start/stop commands.
 
+## Operate Multiple Exits
+
+Treat each public relay as an independent failure domain.
+
+For every relay:
+
+- use a distinct FRPS token file
+- use a distinct FRPC configuration, service, proxy name, and log file
+- restrict the relay to only the required public game port
+- keep relay lifecycle and provider mappings documented separately
+- label the route as primary, standby, testing, or retiring
+
+Do not reuse one token merely for convenience. Independent credentials let an operator retire or rebuild one relay without rotating every other exit.
+
+To add a standby exit without interrupting play:
+
+1. install and validate FRPS while its game proxy port is still closed
+2. install the matching FRPC unit without enabling independent boot startup
+3. add the FRPC service to the existing start and stop service arrays or equivalent lifecycle abstraction
+4. start only the new FRPC
+5. require login, health-check success, proxy registration, and public Minecraft status success
+6. stop only the standby FRPC and confirm the primary exit and Minecraft remain healthy
+7. start it again through the normal global start command
+
+To retire an exit:
+
+- remove it from every start, stop, status, and endpoint-reporting path
+- stop and disable its FRPC unit
+- remove active configuration and token files after preserving an authorized recovery copy when required
+- verify no process still references the retired configuration
+- verify the remaining exits at the Minecraft protocol layer
+
+Do not restart Minecraft merely to add or remove a relay when FRPC services can be changed independently.
+
 ## Couple FRPC To Minecraft
 
 Preserve existing PID, RCON, logging, and detach behavior.
@@ -115,6 +151,29 @@ The stop command should:
 - leave FRPS running on the relay
 
 Do not let FRPC's process hold the SSH invocation open.
+
+## Protect The Public Game Port
+
+Use provider firewalls for coarse port exposure and a host firewall for per-source behavior.
+
+For a small private server, a per-source limit on new TCP connections can reduce scanner and reconnect-flood impact without sharing one bandwidth or connection budget across all players.
+
+Apply limits only to:
+
+- the public Minecraft TCP port
+- `ct state new` or the platform-equivalent new-connection state
+- each source address independently
+
+Allow established traffic normally. A new-connection rate limit is not a bandwidth shaper and should not cap the throughput of an established Minecraft session.
+
+Validate the loaded ruleset after reboot and inspect counters during a controlled test. Keep the threshold comfortably above legitimate status pings, retries, server-list refreshes, and household NAT fan-in.
+
+Do not:
+
+- apply one global token bucket to all source addresses
+- shape the relay's aggregate bandwidth unless explicitly required
+- rate-limit the FRP control port with the same assumptions as the player port
+- treat the host firewall as a replacement for provider security groups
 
 ## Transfer Credentials Safely
 
@@ -183,6 +242,8 @@ Leave the server in the requested final state.
 - FRPS remote port remains after FRPC stop: inspect stale client/control state and service logs.
 - FRPC starts at boot unexpectedly: disable systemd enablement and retain explicit command coupling.
 - Minecraft stops but tunnel remains: ensure every early-return path in the stop script calls the FRPC stop helper.
+- adding a standby disrupts the primary: split service names, configurations, tokens, logs, and lifecycle operations before retrying.
+- every player slows after adding a rate limit: inspect for a global bucket or bandwidth shaper instead of a per-source new-connection rule.
 
 ## Guardrails
 

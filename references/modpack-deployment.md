@@ -130,6 +130,35 @@ Create a global start command that:
 
 Poll readiness separately. Do not hold the SSH command open for the full server lifetime.
 
+### Boot And Process Supervision
+
+When the server must start with the host, prefer a dedicated systemd unit over shell-profile, cron, or panel login hooks.
+
+Choose the service model to match the actual process behavior:
+
+- run Java directly with `Type=simple` when practical
+- use `Type=forking` plus an accurate `PIDFile` only when preserving an existing start script that backgrounds Java
+- do not combine a backgrounding start script with `Type=simple`; systemd may track the wrapper instead of Java
+
+Configure:
+
+- `After=` and `Wants=` for network readiness when startup also manages tunnels
+- a bounded start and stop timeout
+- `Restart=on-failure` with a modest delay
+- an explicit `ExecStop` that performs the graceful RCON path
+- enablement under the normal multi-user boot target
+
+Validate:
+
+- `systemd-analyze verify` reports no errors for the new unit
+- the unit is enabled and survives a real stop/start or restart
+- `MainPID` is the intended Java process
+- the PID file, process, listener, and unit state agree
+- restart counts do not grow during steady operation
+- a host boot reaches Minecraft readiness without an interactive shell
+
+Do not infer boot success from `enabled` alone. An enabled unit can still fail, track the wrong process, or start before required storage and networking are ready.
+
 ### Stop Command
 
 Prefer:
@@ -187,6 +216,8 @@ This is mandatory after client-only pruning.
 
 ### Lifecycle
 
+- check the online player count before disruptive tests
+- defer full stop/restart testing when players are present unless the user explicitly accepts interruption
 - stop through RCON/global command
 - confirm world and dimension saves
 - confirm processes/listeners disappear

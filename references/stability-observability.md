@@ -107,7 +107,22 @@ Avoid double-counting:
 
 Use the same probe implementation, source host, timing, timeout, and sample count for every live exit.
 
-Prefer the Minecraft status protocol over raw TCP. Report:
+Separate probe types:
+
+- **ICMP:** useful for route latency, loss, and jitter when both ends reply; it does not prove the game port works.
+- **TCP connect:** useful for SYN-path and listener testing; provider edges may accept it while the backend is unavailable.
+- **Minecraft status:** verifies an application response, protocol metadata, player count, and public proxy path.
+- **Real login:** verifies mod compatibility and world entry; reserve it for acceptance testing.
+
+For route-quality comparisons, use a stated sample count and report:
+
+- sent and received samples
+- loss percentage
+- average, minimum, maximum, and P95 latency
+- standard deviation or another jitter measure when useful
+- source node, target role, exact time window, and timezone
+
+For exit-health comparisons, prefer the Minecraft status protocol over raw TCP. Report:
 
 - attempts
 - successes and failures
@@ -118,6 +133,20 @@ Prefer the Minecraft status protocol over raw TCP. Report:
 Run enough samples to expose intermittent failure, but bound the rate to avoid affecting play. Label active test traffic so it is not later mistaken for passive history.
 
 When players are online, avoid disruptive lifecycle tests. Prefer status probes, read-only service inspection, and log analysis.
+
+### Interpret Segmented Latency Carefully
+
+Measuring `player network -> relay` and `relay -> server network` can help identify which segment is costly. Adding the two RTT averages is only a rough planning estimate.
+
+Do not present the sum as measured player latency because:
+
+- Internet routes can be asymmetric
+- the player-to-relay probe target may not follow the game flow
+- ICMP and TCP can receive different treatment
+- queuing and jitter are not additive in a stable way
+- FRP, encryption, scheduling, and application processing add overhead not represented by ICMP
+
+Prefer an actual Minecraft status or login measurement from the player's network when ranking exits. Label segmented sums as estimates.
 
 ## Inspect Minecraft Runtime Stability
 

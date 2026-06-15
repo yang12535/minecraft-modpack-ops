@@ -130,6 +130,35 @@ https://edge.forgecdn.net/files/<file-id-div-1000>/<file-id-mod-1000-padded>/<ur
 
 单独轮询就绪状态。不要为整个服务器生命周期保持 SSH 命令打开。
 
+### 主机启动与进程监管
+
+服务器需要随主机启动时，优先使用专用 systemd 单元，而不是 Shell 配置文件、cron 或面板登录钩子。
+
+服务模型必须与实际进程行为一致：
+
+- 条件允许时，直接运行 Java 并使用 `Type=simple`
+- 只有在保留会将 Java 放入后台的现有启动脚本时，才使用 `Type=forking` 和准确的 `PIDFile`
+- 不要将后台化启动脚本与 `Type=simple` 组合；systemd 可能跟踪包装脚本而不是 Java
+
+配置：
+
+- 启动还管理隧道时，使用 `After=` 和 `Wants=` 等待网络就绪
+- 有界的启动和停止超时
+- `Restart=on-failure` 和适度的重试延迟
+- 执行优雅 RCON 流程的明确 `ExecStop`
+- 在正常的多用户启动目标下启用
+
+验证：
+
+- `systemd-analyze verify` 对新单元不报告错误
+- 单元已启用，并能通过真实停止/启动或重启
+- `MainPID` 是预期的 Java 进程
+- PID 文件、进程、监听器和单元状态一致
+- 稳态运行期间重启计数不会增长
+- 主机启动后，无需交互式 Shell 即可到达 Minecraft 就绪状态
+
+不要仅凭 `enabled` 推断开机启动成功。已启用的单元仍可能失败、跟踪错误进程，或在所需存储和网络就绪前启动。
+
 ### 停止命令
 
 尝试按以下顺序：
@@ -187,6 +216,8 @@ https://edge.forgecdn.net/files/<file-id-div-1000>/<file-id-mod-1000-padded>/<ur
 
 ### 生命周期
 
+- 在破坏性测试前检查在线玩家数量
+- 玩家在线时推迟完整停止/重启测试，除非用户明确接受中断
 - 通过 RCON/全局命令停止
 - 确认世界和维度保存
 - 确认进程/监听器消失
