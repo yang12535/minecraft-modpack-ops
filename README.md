@@ -1,127 +1,81 @@
-# Minecraft Modpack Ops
+# Minecraft Modpack Ops（中文版）
 
-A product-neutral operational skill for deploying, automating, and maintaining modded Minecraft dedicated servers.
+一个产品中立的运维技能指南，用于部署、自动化和维护模组 Minecraft 专用服务器。
 
-The repository is documentation-first. It does not depend on Codex or a particular model provider. Any automation agent can use it if the agent can:
+本仓库以文档优先。不依赖 Codex 或特定模型提供商。任何自动化代理均可使用，前提是该代理能够：
 
-- read Markdown files
-- inspect and edit local files
-- run local shell commands
-- connect to authorized hosts over SSH
-- perform network and application-level validation
+- 读取 Markdown 文件
+- 检查和编辑本地文件
+- 运行本地 Shell 命令
+- 通过 SSH 连接到已授权的主机
+- 执行网络和应用层验证
 
-The agent must still have explicit authorization for every target system.
+代理必须对每个目标系统拥有明确的授权。
 
-## Scope
+> **语言 / Language：** 本文为精简版入口。完整中文文档见 [zh/README.md](zh/README.md)。英文版见 [en/](en/) 文件夹。
 
-The skill covers five related workflows:
+## 覆盖范围
 
-- modpack deployment, conservative client-only pruning, administration, and performance validation
-- world replacement with online/offline UUID migration and mod-specific player-data preservation
-- server-side KubeJS session automation, delayed private notices, and custom commands
-- FRP and provider-NAT exposure with secure lifecycle coupling to Minecraft
-- historical stability analysis and fair multi-exit comparison across FRP, network, and Minecraft layers
+本技能涵盖五个相关工作流：
 
-`SKILL.md` is intentionally short. It routes the agent to only the relevant file under `references/`.
+- 模组包部署、保守的客户端专用模组修剪、管理和性能验证
+- 世界替换（含在线/离线 UUID 迁移和模组特定玩家数据保留）
+- 服务端 KubeJS 会话自动化、延迟私聊通知和自定义命令
+- FRP 和提供商 NAT 暴露，与 Minecraft 安全生命周期耦合
+- 跨 FRP、网络和 Minecraft 层的历史稳定性分析和公平的多出口对比
 
-## Repository Layout
+`SKILL.md` 有意保持简短，仅将代理路由到 `zh/references/` 下的相关文件。
+
+## 仓库布局
 
 ```text
 .
-|-- README.md
-|-- SKILL.md
-|-- references/
-|   |-- modpack-deployment.md
-|   |-- world-migration.md
-|   |-- kubejs-server-automation.md
-|   |-- frp-tunneling.md
-|   `-- stability-observability.md
-`-- agents/
-    `-- openai.yaml
+|-- README.md          (中文，默认)
+|-- SKILL.md           (中文，默认)
+|-- zh/                (中文全文)
+|-- en/                (English full text)
+|-- references/        (保留兼容)
+|-- agents/            (保留兼容)
 ```
 
-`agents/openai.yaml` is optional UI metadata for compatible OpenAI/Codex environments. The operational guidance does not require it.
+## 与任何 Shell 代理配合使用
 
-## Use With Any Shell Agent
-
-Give the agent access to this repository and instruct it to begin with `SKILL.md`:
+将本仓库的访问权限授予代理，并指示其从 `SKILL.md` 开始：
 
 ```text
-Read /absolute/path/to/minecraft-modpack-ops/SKILL.md and follow its routing
-instructions for this Minecraft server task. Use the available shell and SSH
-tools, preserve unrelated services, and complete the relevant validation stages.
+阅读 /absolute/path/to/minecraft-modpack-ops/SKILL.md 并按照其路由
+指示处理此 Minecraft 服务器任务。使用可用的 Shell 和 SSH 工具，
+保留无关服务，并完成相关验证阶段。
 ```
 
-Agents or frameworks with a skill-directory convention can copy or symlink this repository into that directory. Otherwise, reference `SKILL.md` from the agent's system instructions, project instructions, or task prompt.
-
-The workflow assumes the agent can adapt commands to the operating system and existing service conventions. It intentionally does not provide a universal deployment script.
-
-## Examples
+## 示例
 
 ```text
-Deploy this CurseForge export as a Forge dedicated server. Remove only mods
-proven to be client-only, add graceful global start/stop commands, and validate
-a real client login.
+将此 CurseForge 导出文件部署为 Forge 专用服务器。仅移除已证明为
+客户端专用的模组，添加优雅的全局启动/停止命令，并验证真实客户端登录。
 ```
 
 ```text
-Replace the stopped server's world with this archive. The target will use
-offline mode, so migrate all player and mod UUID references before startup.
+用此存档替换已停止服务器的世界。目标将使用离线模式，
+因此请在启动前迁移所有玩家和模组的 UUID 引用。
 ```
 
 ```text
-Use the pack's existing KubeJS installation to send each player a private
-notice five minutes after every login session. A reconnect must invalidate the
-old timer, and a player command must show the same notice on demand.
+使用整合包已有的 KubeJS，在每次登录会话五分钟后向该玩家单独发送
+公告。重新连接必须使旧计时器失效，并提供一个玩家命令随时查看同一公告。
 ```
 
 ```text
-Expose this private Minecraft server through an FRP relay. Harden FRPS, couple
-FRPC to the existing Minecraft lifecycle commands, and validate the public
-Minecraft status protocol.
+通过 FRP 中继暴露此私有 Minecraft 服务器。加固 FRPS，将 FRPC
+耦合到现有的 Minecraft 生命周期命令，并验证公共 Minecraft 状态协议。
 ```
 
-```text
-Compare the recent stability of these two public exits. Separate passive logs
-from active probes, exclude any retired relay, and report Minecraft timeouts,
-lag, memory, GC, swap, and confidence in exit attribution.
-```
+## 安全与隐私
 
-## Security And Privacy
+- 将 SSH 密钥、RCON 密码、FRP 令牌和代理凭证保存在已授权的主机上
+- 切勿将机密放在命令参数、Shell 追踪、进程列表、日志、聊天或仓库文件中
+- 将玩家名称、UUID、IP 地址、坐标、背包、世界、日志、`ops.json` 和 `usercache.json` 视为敏感数据
 
-This repository contains no production endpoints, player identities, UUIDs, credentials, or server-specific paths.
+## 审查状态
 
-When using the skill:
-
-- keep SSH keys, RCON passwords, FRP tokens, and proxy credentials on authorized hosts
-- never place secrets in command arguments, shell tracing, process listings, logs, chat, or repository files
-- treat player names, UUIDs, IP addresses, coordinates, inventories, worlds, logs, `ops.json`, and `usercache.json` as sensitive data
-- keep UUID mapping tables and extracted worlds ephemeral
-- redact identity-bearing log excerpts before storing or sharing them
-- disclose exact infrastructure endpoints only to the authorized requester
-- validate credential equality without publishing the credential or its hash
-- clean temporary archives, extraction trees, and downloaded binaries after validation
-
-The included `.gitignore` is defense in depth, not a substitute for reviewing staged changes before every commit.
-
-## Operational Expectations
-
-- Inspect before changing.
-- Preserve user content and unrelated services.
-- Prefer structured parsers over raw text or binary replacement.
-- Keep long-running services detached from the agent's shell session.
-- Use RCON for graceful saves and stops when available.
-- Validate Minecraft itself, not merely a process or TCP listener.
-- State clearly when a real client login or other acceptance stage remains untested.
-
-## Review Status
-
-The initial repository was reviewed for:
-
-- embedded IP addresses, usernames, UUIDs, emails, and local machine paths
-- credentials, tokens, passwords, and private-key references
-- instance-specific service names and commands
-- Codex-only assumptions in the core workflow
-- accidental inclusion of worlds, logs, archives, binaries, or player data
-
-The core documentation is platform-neutral; only `agents/openai.yaml` is provider-specific and optional.
+核心文档是平台中立的；仅 `agents/openai.yaml` 是提供商特定且可选的。
