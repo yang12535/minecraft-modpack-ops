@@ -47,7 +47,7 @@ The skill covers four related workflows:
 Give the agent access to this repository and instruct it to begin with `SKILL.md`:
 
 ```text
-Read /absolute/path/to/minecraft-modpack-ops/SKILL.md and follow its routing
+Read /absolute/path/to/minecraft-modpack-ops/en/SKILL.md and follow its routing
 instructions for this Minecraft server task. Use the available shell and SSH
 tools, preserve unrelated services, and complete the relevant validation stages.
 ```

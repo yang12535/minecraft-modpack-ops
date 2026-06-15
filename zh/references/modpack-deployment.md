@@ -135,8 +135,9 @@ https://edge.forgecdn.net/files/<文件ID除以1000>/<文件ID模1000补齐>/<UR
 尝试按以下顺序：
 
 1. RCON `save-all flush`，然后 `stop`
-2. `SIGTERM`
-3. 仅在迫不得已时强制终止
+2. 使用有界轮询等待进程优雅退出
+3. `SIGTERM`
+4. 仅在迫不得已时强制终止
 
 在发送信号之前验证 PID 是否属于此服务器。
 
