@@ -51,7 +51,8 @@
 |   |   `-- stability-observability.md
 |   `-- agents/
 |       `-- openai.yaml
-`-- agents/
+|-- references/        (保留兼容)
+`-- agents/            (中文默认元数据)
     `-- openai.yaml
 ```
 
@@ -84,8 +85,8 @@
 ```
 
 ```text
-通过 FRP 中继暴露此私有 Minecraft 服务器。加固 FRPS，将 FRPC 
-耦合到现有的 Minecraft 生命周期命令，并验证公共 Minecraft 
+通过 FRP 中继暴露此私有 Minecraft 服务器。加固 FRPS，将 FRPC
+耦合到现有的 Minecraft 生命周期命令，并验证公共 Minecraft
 状态协议。
 ```
 

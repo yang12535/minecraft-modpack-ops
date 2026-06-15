@@ -41,7 +41,7 @@ The default language is Chinese. For English documentation, use the files under 
 
 ## Use With Any Shell Agent
 
-Give the agent access to this repository and instruct it to begin with `SKILL.md`:
+Give the agent access to this repository and instruct it to begin with `en/SKILL.md`:
 
 ```text
 Read /absolute/path/to/minecraft-modpack-ops/en/SKILL.md and follow its routing
@@ -49,7 +49,7 @@ instructions for this Minecraft server task. Use the available shell and SSH
 tools, preserve unrelated services, and complete the relevant validation stages.
 ```
 
-Agents or frameworks with a skill-directory convention can copy or symlink the `en/` subdirectory into that directory. Otherwise, reference `SKILL.md` from the agent's system instructions, project instructions, or task prompt.
+Agents or frameworks with a skill-directory convention can copy or symlink the `en/` subdirectory into that directory. Otherwise, reference `en/SKILL.md` from the agent's system instructions, project instructions, or task prompt.
 
 The workflow assumes the agent can adapt commands to the operating system and existing service conventions. It intentionally does not provide a universal deployment script.
 

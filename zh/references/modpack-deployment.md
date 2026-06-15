@@ -134,10 +134,11 @@ https://edge.forgecdn.net/files/<file-id-div-1000>/<file-id-mod-1000-padded>/<ur
 
 尝试按以下顺序：
 
-1. RCON `save-all flush`，然后 `stop`
-2. 使用有界轮询等待进程优雅退出
-3. `SIGTERM`
-4. 仅在迫不得已时强制终止
+1. 通过 RCON 执行 `save-all flush`
+2. 通过 RCON 执行 `stop`
+3. 使用有界轮询等待进程优雅退出
+4. 若进程仍未退出，发送 `SIGTERM`
+5. 仅在迫不得已时强制终止
 
 在发送信号之前验证 PID 是否属于此服务器。
 
