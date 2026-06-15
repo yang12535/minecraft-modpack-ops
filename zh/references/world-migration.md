@@ -49,7 +49,7 @@
 对精确的大小写敏感字节计算 Java 名称 UUID：
 
 ```text
-OfflinePlayer:<玩家名称>
+OfflinePlayer:<player-name>
 ```
 
 这是一个 MD5 版本 3 UUID。付费账户在加入 `online-mode=false` 服务器时也会收到此离线 UUID。

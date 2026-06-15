@@ -14,8 +14,8 @@
 
 在配置之前先记录路径：
 
-```text
-玩家 -> 公共游戏端点 -> 提供商 NAT -> frps 远程端口
+```
+player -> 公共游戏端点 -> 提供商 NAT -> frps 远程端口
 frpc -> 公共控制端点 -> 提供商 NAT -> frps 绑定端口
 frpc -> 本地 Minecraft 地址和端口
 ```

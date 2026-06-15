@@ -68,7 +68,7 @@
 当平台导入器拒绝受限项目时，使用精确的项目元数据和授权的回退方式。CurseForge ForgeCDN 常用格式：
 
 ```text
-https://edge.forgecdn.net/files/<文件ID除以1000>/<文件ID模1000补齐>/<URL编码的文件名>
+https://edge.forgecdn.net/files/<file-id-div-1000>/<file-id-mod-1000-padded>/<url-encoded-filename>
 ```
 
 验证当前的元数据和结果哈希。`403` 可能意味着文件 ID 或文件名有误。
