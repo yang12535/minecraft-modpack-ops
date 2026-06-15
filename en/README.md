@@ -29,18 +29,15 @@ The skill covers four related workflows:
 
 ```text
 .
-|-- README.md
-|-- SKILL.md
-|-- references/
-|   |-- modpack-deployment.md
-|   |-- world-migration.md
-|   |-- frp-tunneling.md
-|   `-- stability-observability.md
-`-- agents/
-    `-- openai.yaml
+|-- README.md          (Chinese, default)
+|-- SKILL.md           (Chinese routing, default)
+|-- zh/                (Chinese full text)
+|-- en/                (English full text)
+|-- references/        (kept for backward compatibility)
+`-- agents/            (kept for backward compatibility)
 ```
 
-`agents/openai.yaml` is optional UI metadata for compatible OpenAI/Codex environments. The operational guidance does not require it.
+The default language is Chinese. For English documentation, use the files under `en/`. The root `references/` and `agents/` directories are retained for backward compatibility with existing setups.
 
 ## Use With Any Shell Agent
 
@@ -52,7 +49,7 @@ instructions for this Minecraft server task. Use the available shell and SSH
 tools, preserve unrelated services, and complete the relevant validation stages.
 ```
 
-Agents or frameworks with a skill-directory convention can copy or symlink this repository into that directory. Otherwise, reference `SKILL.md` from the agent's system instructions, project instructions, or task prompt.
+Agents or frameworks with a skill-directory convention can copy or symlink the `en/` subdirectory into that directory. Otherwise, reference `SKILL.md` from the agent's system instructions, project instructions, or task prompt.
 
 The workflow assumes the agent can adapt commands to the operating system and existing service conventions. It intentionally does not provide a universal deployment script.
 
