@@ -7,6 +7,7 @@
 - Downloads and loader installation
 - Client-only pruning
 - Runtime administration
+- Backup retention and packaging
 - Layered validation
 - Capacity evaluation
 - Failure routing
@@ -234,6 +235,12 @@ This is mandatory after client-only pruning.
 
 Logs can contain player names, UUIDs, IP addresses, chat, coordinates, and command output. Keep full logs on the authorized host. When diagnosis requires an excerpt, redact unrelated identities and addresses before placing it in a persistent artifact or public report.
 
+## Backup Retention And Packaging
+
+When backups, disk cleanup, public player archives, or private full-restore archives are in scope, read [archive-backup-packaging.md](archive-backup-packaging.md).
+
+Do not treat backup count alone as adequate retention control. Check both count limits and total-size limits, especially on small VPS disks. Do not place backup directories in public packages unless the user explicitly asks for them.
+
 ## Evaluate Capacity
 
 Do not estimate capacity from one idle `htop` screenshot.
@@ -256,6 +263,8 @@ Use TPS/MSPT, resident memory, GC, and the expected worst-case workload. State e
 - stop timeout: use RCON, then normal signal; inspect saving logs.
 - OOM/swap/GC pauses: review heap and distances, then consider increasing VM memory.
 - exploration lag with good idle TPS: profile world generation and chunk loading.
+- backup directory fills disk: inspect backup count, size cap, full-versus-incremental mode, and whether backups run with no players online.
+- archive size looks wrong: compare source directory sizes and manifest counts before assuming files were lost.
 
 ## Guardrails
 

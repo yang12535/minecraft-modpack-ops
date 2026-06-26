@@ -1,4 +1,4 @@
 interface:
   display_name: "Minecraft Modpack Ops"
-  short_description: "通过 SSH 部署、自动化、迁移、暴露和监控模组 Minecraft 服务器"
-  default_prompt: "使用 $minecraft-modpack-ops 来路由和执行此模组 Minecraft 部署、自动化、世界迁移、FRP 网络或稳定性分析任务。"
+  short_description: "通过 SSH 部署、自动化、迁移、暴露、归档和监控模组 Minecraft 服务器"
+  default_prompt: "使用 $minecraft-modpack-ops 来路由和执行此模组 Minecraft 部署、自动化、世界迁移、FRP 网络、归档备份或稳定性分析任务。"

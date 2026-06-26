@@ -16,12 +16,13 @@ The agent must still have explicit authorization for every target system.
 
 ## Scope
 
-The skill covers five related workflows:
+The skill covers six related workflows:
 
 - modpack deployment, conservative client-only pruning, administration, and performance validation
 - world replacement with online/offline UUID migration and mod-specific player-data preservation
 - server-side KubeJS session automation, delayed private notices, and custom commands
 - FRP and provider-NAT exposure with secure lifecycle coupling to Minecraft
+- backup retention tuning, public player packages, game archives, and private full-restore packages
 - historical stability analysis and fair multi-exit comparison across FRP, network, and Minecraft layers
 
 `SKILL.md` is intentionally short. It routes the agent to only the relevant file under `references/`.
@@ -77,6 +78,12 @@ old timer, and a player command must show the same notice on demand.
 Expose this private Minecraft server through an FRP relay. Harden FRPS, couple
 FRPC to the existing Minecraft lifecycle commands, and validate the public
 Minecraft status protocol.
+```
+
+```text
+Prepare this server for archival. First confirm no players are online, clean
+and cap backups, then build a sanitized public player package and a private
+full-restore package for operators only.
 ```
 
 ```text
