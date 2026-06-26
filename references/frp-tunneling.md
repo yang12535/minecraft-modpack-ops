@@ -189,6 +189,8 @@ Do not:
 Authentication succeeding once is not a reason to ignore a byte mismatch; normalize it to avoid version-dependent parsing behavior.
 Do not copy the token or its hash into the completion report, repository, issue tracker, or other persistent artifact.
 
+When creating a private full-restore archive that intentionally includes FRP configs or tokens, read [archive-backup-packaging.md](archive-backup-packaging.md). Mark the archive private, preserve file modes, and keep it out of public repositories and player-facing packages.
+
 ## Validate Four States
 
 ### FRPS Alone
